@@ -36,6 +36,9 @@ export default function Home() {
         </div>
 
         {/* AGENDAMENTO */}
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          Agendamentos
+        </h2>
         <Card>
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
