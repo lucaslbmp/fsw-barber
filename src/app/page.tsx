@@ -7,8 +7,12 @@ import { Card, CardContent } from "./_components/ui/card"
 import { Badge } from "./_components/ui/badge"
 import { Avatar } from "./_components/ui/avatar"
 import { AvatarImage } from "@radix-ui/react-avatar"
+import { db } from "./_lib/prisma"
+import BarbershopItem from "./_components/ui/barbershop-item"
 
-export default function Home() {
+export default async function Home() {
+  const barberShops = await db.barbershop.findMany({})
+
   return (
     <main className="mb-5">
       <Header />
@@ -26,7 +30,7 @@ export default function Home() {
         </div>
 
         {/* IMAGEM */}
-        <div className="relative h-[150px] w-full">
+        <div className="relative mt-6 h-[150px] w-full">
           <Image
             src="/banner01.png"
             alt="Agende nos melhores com FSW BArber"
@@ -61,6 +65,16 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
+        {/* RECOMENDADOS */}
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Recomendados
+        </h2>
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {barberShops.map((barberShop) => (
+            <BarbershopItem key={barberShop.id} barberShop={barberShop} />
+          ))}
+        </div>
       </div>
     </main>
   )
