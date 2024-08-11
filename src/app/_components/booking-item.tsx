@@ -17,8 +17,8 @@ const BookingItem = () => {
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarImage src="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png" />
-                <p className="text-sm">Barbearia FSW</p>
               </Avatar>
+              <p className="text-sm">Barbearia FSW</p>
             </div>
           </div>
 
