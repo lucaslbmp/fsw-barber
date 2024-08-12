@@ -18,14 +18,16 @@ const SidebarSheet = () => {
         <SheetTitle className="text-left">Menu</SheetTitle>
       </SheetHeader>
 
-      <div className="flex items-center border-b border-solid py-5">
-        <Avatar>
-          <AvatarImage src={"/next.svg"} />
-        </Avatar>
+      <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={"/banner01.png"} />
+          </Avatar>
 
-        <div>
-          <p className="font-bold">Lucas Pinheiro</p>
-          <p className="text-xs">lucasset10@msn.com</p>
+          <div>
+            <p className="font-bold">Lucas Pinheiro</p>
+            <p className="text-xs">lucasset10@msn.com</p>
+          </div>
         </div>
       </div>
 
@@ -64,7 +66,7 @@ const SidebarSheet = () => {
       </div>
 
       <div className="flex flex-col gap-2 py-5">
-        <Button className="justify-start" variant={"ghost"}>
+        <Button className="justify-start gap-2" variant={"ghost"}>
           <LogOutIcon size={18} />
           Sair da conta
         </Button>
