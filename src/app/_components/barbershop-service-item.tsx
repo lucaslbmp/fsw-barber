@@ -118,7 +118,6 @@ const BarberShopServiceItem = ({
       const newDate = set(selectedDay, { minutes: mins, hours: hours })
       await createBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
         date: newDate,
       })
       handleBookingSheetsOpenChange()
