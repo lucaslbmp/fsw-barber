@@ -10,9 +10,6 @@ const Header = () => {
     <Card>
       <CardContent className="flex flex-row items-center justify-between p-5">
         <Image src="/logo.svg" alt="FSW Barber" height={18} width={120} />
-        <Button size="icon" variant="outline">
-          <MenuIcon />
-        </Button>
 
         <Sheet>
           <SheetTrigger asChild>

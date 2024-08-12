@@ -45,16 +45,6 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
           </Link>
         </Button>
 
-        <Button
-          size={"icon"}
-          variant={"secondary"}
-          className="absolute left-4 top-4"
-        >
-          <Link href="/">
-            <ChevronLeftIcon />
-          </Link>
-        </Button>
-
         <Sheet>
           <SheetTrigger asChild>
             <Button
