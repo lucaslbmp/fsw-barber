@@ -1,6 +1,6 @@
 "use client"
 
-import { BarbershopService } from "@prisma/client"
+import { BarbershopService, Booking } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
@@ -11,15 +11,15 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
-import { useState } from "react"
-import { format, set } from "date-fns"
+import { useEffect, useState } from "react"
+import { addDays, format, set } from "date-fns"
 import createBooking from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
+import { getBookings } from "../_actions/get-bookings"
 
 interface BarberShopServiceItemProps {
   service: BarbershopService
@@ -50,6 +50,20 @@ const TIME_LIST = [
   "18:00",
 ]
 
+const getTimeList = (bookings?: Booking[]) => {
+  if (!bookings) return TIME_LIST
+  return TIME_LIST.filter((time) => {
+    const [hour, mins] = time.split(":").map(Number)
+    const hasBookingOnCurrentTime =
+      bookings.some((booking) => booking.date.getHours() === hour) &&
+      bookings.some((booking) => booking.date.getMinutes() === mins)
+    if (hasBookingOnCurrentTime) {
+      return false
+    }
+    return true
+  })
+}
+
 const BarberShopServiceItem = ({
   service,
   barbershop,
@@ -57,6 +71,27 @@ const BarberShopServiceItem = ({
   const { data } = useSession()
   const [selectedDay, setSelectedDay] = useState<Date>()
   const [selectedTime, setSelectedTime] = useState<string>()
+  const [dayBookings, setDayBookings] = useState<Booking[]>()
+  const [bookingSheetsIsOpen, setBookingSheetsIsOpen] = useState(false)
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (!selectedDay) return
+      const _bookings = await getBookings({
+        date: selectedDay,
+        serviceId: service.id,
+      })
+      setDayBookings(_bookings)
+    }
+    fetch()
+  }, [selectedDay, service.id])
+
+  const handleBookingSheetsOpenChange = () => {
+    setSelectedDay(undefined)
+    setSelectedTime(undefined)
+    setDayBookings([])
+    setBookingSheetsIsOpen(false)
+  }
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDay(date)
@@ -76,6 +111,7 @@ const BarberShopServiceItem = ({
         userId: (data?.user as any).id,
         date: newDate,
       })
+      handleBookingSheetsOpenChange()
       toast.success("Reserva criada com sucesso!")
     } catch (error) {
       console.log(error)
@@ -109,12 +145,17 @@ const BarberShopServiceItem = ({
                 }).format(Number(service.price))}
               </span>
 
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant={"secondary"} size="sm">
-                    <p className="text-xs">Reservar</p>
-                  </Button>
-                </SheetTrigger>
+              <Sheet
+                open={bookingSheetsIsOpen}
+                onOpenChange={handleBookingSheetsOpenChange}
+              >
+                <Button
+                  variant={"secondary"}
+                  size="sm"
+                  onClick={() => setBookingSheetsIsOpen(true)}
+                >
+                  <p className="text-xs">Reservar</p>
+                </Button>
 
                 <SheetContent className="px-0">
                   <SheetHeader className="mx-auto">
@@ -127,12 +168,13 @@ const BarberShopServiceItem = ({
                       onSelect={handleDateSelect}
                       mode="single"
                       locale={ptBR}
+                      fromDate={addDays(new Date(), 1)}
                     />
                   </div>
 
                   {selectedDay && (
                     <div className="flex gap-3 overflow-x-auto border-b border-solid px-5 [&::-webkit-scrollbar]:hidden">
-                      {TIME_LIST.map((time) => (
+                      {getTimeList(dayBookings)?.map((time) => (
                         <Button
                           key={time}
                           variant={
