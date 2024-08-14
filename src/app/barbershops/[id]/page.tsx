@@ -63,11 +63,11 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
       <div className="border-b border-solid p-5">
         <h1 className="mb-3 text-xl font-bold">{barbershop.name}</h1>
         <div className="flex items-center gap-1">
-          <MapPinIcon className="text-primary" />
+          <MapPinIcon size={16} className="text-primary" />
           <p className="text-sm">{barbershop.address}</p>
         </div>
         <div className="flex items-center gap-2">
-          <StarIcon className="fill-primary text-primary" />
+          <StarIcon size={16} className="fill-primary text-primary" />
           <p>5,0 (889 avaliações)</p>
         </div>
       </div>
