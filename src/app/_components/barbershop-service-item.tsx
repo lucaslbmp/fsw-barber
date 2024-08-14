@@ -23,6 +23,7 @@ import { getBookings } from "../_actions/get-bookings"
 import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSummary from "./booking-summary"
+import { useRouter } from "next/navigation"
 
 interface BarberShopServiceItemProps {
   service: BarbershopService
@@ -88,6 +89,7 @@ const BarberShopServiceItem = ({
   const [dayBookings, setDayBookings] = useState<Booking[]>()
   const [bookingSheetsIsOpen, setBookingSheetsIsOpen] = useState(false)
   const [signInDialogIsOpen, setSignInDialogIsOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const fetch = async () => {
@@ -139,7 +141,12 @@ const BarberShopServiceItem = ({
         date: selectedDate,
       })
       handleBookingSheetsOpenChange()
-      toast.success("Reserva criada com sucesso!")
+      toast.success("Reserva criada com sucesso!", {
+        action: {
+          label: "Ver agendamentos",
+          onClick: () => router.push("/bookings"),
+        },
+      })
     } catch (error) {
       console.log(error)
       toast.error("Error ao criar reserva!")
