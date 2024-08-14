@@ -1,4 +1,4 @@
-import { Search } from "lucide-react"
+import Search from "../_components/search"
 import BarbershopItem from "../_components/barbershop-item"
 import Header from "../_components/header"
 import { db } from "../_lib/prisma"
