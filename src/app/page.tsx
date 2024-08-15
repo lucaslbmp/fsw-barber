@@ -113,7 +113,7 @@ export default async function Home() {
                 key={booking.id}
                 className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
-                <BookingItem booking={booking} />
+                <BookingItem booking={JSON.parse(JSON.stringify(booking))} />
                 {/* <div>aaa</div> */}
               </CarouselItem>
             ))}
