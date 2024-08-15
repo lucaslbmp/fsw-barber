@@ -11,6 +11,13 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./_components/ui/carousel"
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -59,21 +66,30 @@ export default async function Home() {
         </div>
 
         {/* BUSCA RAPIDA */}
-        <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-          {quickSearchOptions.map((option, i) => (
-            <Button key={i} className="gap-2" variant={"secondary"} asChild>
-              <Link href={`/barbershops?service=${option.title}`}>
-                <Image
-                  src={option.imageUrl}
-                  width={16}
-                  height={16}
-                  alt={option.title}
-                />
-                {option.title}
-              </Link>
-            </Button>
-          ))}
-        </div>
+        <Carousel className="mx-12 mt-6 max-w-full">
+          <CarouselContent>
+            {quickSearchOptions.map((option, i) => (
+              <CarouselItem
+                key={i}
+                className="basis-1/3 xs:basis-1/4 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+              >
+                <Button className="w-full gap-2" variant={"secondary"} asChild>
+                  <Link href={`/barbershops?service=${option.title}`}>
+                    <Image
+                      src={option.imageUrl}
+                      width={16}
+                      height={16}
+                      alt={option.title}
+                    />
+                    <span className="hidden sm:block">{option.title}</span>
+                  </Link>
+                </Button>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
 
         {/* IMAGEM */}
         <div className="relative mt-6 h-[150px] w-full">
@@ -89,31 +105,60 @@ export default async function Home() {
         <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
           Agendamentos
         </h2>
-        <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {boookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
-        </div>
+
+        <Carousel className="mx-12 max-w-full">
+          <CarouselContent>
+            {boookings.map((booking) => (
+              <CarouselItem
+                key={booking.id}
+                className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+              >
+                <BookingItem booking={booking} />
+                {/* <div>aaa</div> */}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados
         </h2>
-        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {barberShops.map((barberShop) => (
-            <BarbershopItem key={barberShop.id} barberShop={barberShop} />
-          ))}
-        </div>
+        <Carousel className="mx-12 max-w-full">
+          <CarouselContent>
+            {barberShops.map((barberShop) => (
+              <CarouselItem
+                key={barberShop.id}
+                className="basis-full xs:basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
+              >
+                <BarbershopItem barberShop={barberShop} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Populares
         </h2>
-        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarberShops.map((barberShop) => (
-            <BarbershopItem key={barberShop.id} barberShop={barberShop} />
-          ))}
-        </div>
+        <Carousel className="mx-12 max-w-full">
+          <CarouselContent>
+            {popularBarberShops.map((barberShop) => (
+              <CarouselItem
+                key={barberShop.id}
+                className="basis-full xs:basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
+              >
+                <BarbershopItem key={barberShop.id} barberShop={barberShop} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     </main>
   )

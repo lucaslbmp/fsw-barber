@@ -61,7 +61,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
   }
   return (
     <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
-      <SheetTrigger className="w-full min-w-[300px]">
+      <SheetTrigger className="w-full">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
@@ -70,7 +70,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                 variant={isConfirmed ? "default" : "secondary"}
                 className="w-fit"
               >{`${isConfirmed ? "Confirmado" : "Finalizado"}`}</Badge>
-              <h3>{booking.service.name}</h3>
+              <h3 className="w-fit">{booking.service.name}</h3>
               <div className="flex items-center gap-2">
                 <Avatar className="h-6 w-6">
                   <AvatarImage src={barbershop.imageUrl} />
