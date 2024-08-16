@@ -159,7 +159,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3 p-5">
             {barbershop.phones.map((phone, i) => (
               <PhoneItem key={i} phone={phone} />
             ))}
