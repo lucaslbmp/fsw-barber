@@ -21,11 +21,14 @@ import {
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
-  const barberShops = await db.barbershop.findMany({})
+  const barberShops = await db.barbershop.findMany({
+    include: { ratings: true },
+  })
   const popularBarberShops = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
     },
+    include: { ratings: true },
   })
   const boookings = session?.user
     ? await db.booking.findMany({

@@ -1,13 +1,14 @@
-import { Barbershop } from "@prisma/client"
+import { Barbershop, Rating } from "@prisma/client"
 import { Card, CardContent } from "./ui/card"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { StarIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import Link from "next/link"
+import { getRatingAvg } from "../_utils"
 
 interface BarberhopProps {
-  barberShop: Barbershop
+  barberShop: Barbershop & { ratings: Rating[] }
 }
 
 const BarbershopItem = ({ barberShop }: BarberhopProps) => {
@@ -29,7 +30,9 @@ const BarbershopItem = ({ barberShop }: BarberhopProps) => {
             variant="secondary"
           >
             <StarIcon size={12} className="fill-primary text-primary" />
-            <p className="text-xs font-semibold">5,0</p>
+            <p className="text-xs font-semibold">
+              {getRatingAvg(barberShop.ratings)}
+            </p>
           </Badge>
         </div>
 
