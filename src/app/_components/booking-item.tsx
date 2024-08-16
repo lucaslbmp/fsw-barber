@@ -32,11 +32,18 @@ import { useState } from "react"
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import BookingSummary from "./booking-summary"
+import createRating from "../_actions/create-rating"
+import { FormProvider, useForm } from "react-hook-form"
+import Rating from "./ui/rating"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
     include: { service: { include: { barbershop: true } } }
   }>
+}
+
+interface IFormInput {
+  rating: string
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
@@ -45,6 +52,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     service: { barbershop },
   } = booking
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  //const [rating, setRating] = useState<Decimal>()
+  const form = useForm<IFormInput>()
 
   const handleCancelBooking = async () => {
     try {
@@ -54,6 +63,19 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     } catch (error) {
       console.error(error)
       toast.error("Erro ao cancelar reserva. Tente novamente.")
+    }
+  }
+
+  const onRatingSubmit = async (formData: IFormInput) => {
+    try {
+      const rawRating = formData.rating?.toString()
+      if (!rawRating) throw new Error("Nota inválida")
+      const rating = new Prisma.Decimal(rawRating)
+      if (!rating?.d) throw new Error("Nota inválida!")
+      await createRating({ value: rating, barbershopId: barbershop.id })
+    } catch (error) {
+      console.error(error)
+      toast.error("Erro ao submeter nota. Tente novamente.")
     }
   }
   const handleSheetOpenChange = (isOpen: boolean) => {
@@ -182,6 +204,43 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                       </Button>
                     </DialogClose>
                   </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+            {!isConfirmed && (
+              <Dialog>
+                <DialogTrigger className="w-full">
+                  <Button className="w-full">Avaliar</Button>
+                </DialogTrigger>
+                <DialogContent className="w-[90%]">
+                  <FormProvider {...form}>
+                    <form onSubmit={form.handleSubmit(onRatingSubmit)}>
+                      <DialogHeader>
+                        <DialogTitle>Avalie sua experiência</DialogTitle>
+                        <DialogDescription>
+                          Toque nas estrelas para avaliar sua experiência no(a){" "}
+                          {barbershop.name}!
+                          <Rating
+                            className="mx-auto my-3 w-fit"
+                            defaultValue={0}
+                            {...form.register("rating")}
+                          />
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className="flex flex-row gap-3">
+                        <DialogClose asChild>
+                          <Button variant="secondary" className="w-full">
+                            Voltar
+                          </Button>
+                        </DialogClose>
+                        <DialogClose className="w-full" asChild>
+                          <Button type="submit" className="w-full">
+                            Confirmar
+                          </Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </form>
+                  </FormProvider>
                 </DialogContent>
               </Dialog>
             )}

@@ -4,6 +4,7 @@ import SidebarSheet from "@/app/_components/sidebar-sheet"
 import { Button } from "@/app/_components/ui/button"
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
 import { db } from "@/app/_lib/prisma"
+import { getRatingAvg } from "@/app/_utils"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,6 +21,7 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
     where: { id: params.id },
     include: {
       services: true,
+      ratings: true,
     },
   })
   if (!barbershop) {
@@ -68,7 +70,9 @@ const BarberShopPage = async ({ params }: BarberShopPageProps) => {
         </div>
         <div className="flex items-center gap-2">
           <StarIcon size={16} className="fill-primary text-primary" />
-          <p>5,0 (889 avaliações)</p>
+          <p>
+            {`${getRatingAvg(barbershop.ratings)} (${barbershop.ratings.length} avaliações)`}
+          </p>
         </div>
       </div>
 
