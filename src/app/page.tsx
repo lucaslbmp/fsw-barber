@@ -68,31 +68,27 @@ export default async function Home() {
           <Search />
         </div>
 
-        {/* BUSCA RAPIDA */}
-        <Carousel className="mx-12 mt-6 max-w-full">
-          <CarouselContent>
-            {quickSearchOptions.map((option, i) => (
-              <CarouselItem
-                key={i}
-                className="basis-1/3 xs:basis-1/4 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
-              >
-                <Button className="w-full gap-2" variant={"secondary"} asChild>
-                  <Link href={`/barbershops?service=${option.title}`}>
-                    <Image
-                      src={option.imageUrl}
-                      width={16}
-                      height={16}
-                      alt={option.title}
-                    />
-                    <span className="hidden sm:block">{option.title}</span>
-                  </Link>
-                </Button>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        {/* BUSCA RÁPIDA */}
+        <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+          {quickSearchOptions.map((option) => (
+            <Button
+              className="gap-2"
+              variant="secondary"
+              key={option.title}
+              asChild
+            >
+              <Link href={`/barbershops?service=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                />
+                {option.title}
+              </Link>
+            </Button>
+          ))}
+        </div>
 
         {/* IMAGEM */}
         <div className="relative mt-6 h-[150px] w-full">
