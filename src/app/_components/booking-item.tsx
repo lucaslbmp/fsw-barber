@@ -35,6 +35,7 @@ import BookingSummary from "./booking-summary"
 import createRating from "../_actions/create-rating"
 import { FormProvider, useForm } from "react-hook-form"
 import Rating from "./ui/rating"
+import { CheckIcon } from "lucide-react"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -52,6 +53,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     service: { barbershop },
   } = booking
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isEvaluationSucessDialogOpen, setIsEvaluationSucessDialogOpen] =
+    useState(false)
   //const [rating, setRating] = useState<Decimal>()
   const form = useForm<IFormInput>()
 
@@ -229,12 +232,18 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                       </DialogHeader>
                       <DialogFooter className="flex flex-row gap-3">
                         <DialogClose asChild>
-                          <Button variant="secondary" className="w-full">
+                          <Button variant="secondary" className="w-full flex-1">
                             Voltar
                           </Button>
                         </DialogClose>
                         <DialogClose className="w-full" asChild>
-                          <Button type="submit" className="w-full">
+                          <Button
+                            type="submit"
+                            className="w-full flex-1"
+                            onClick={() => {
+                              setIsEvaluationSucessDialogOpen(true)
+                            }}
+                          >
                             Confirmar
                           </Button>
                         </DialogClose>
@@ -245,6 +254,34 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               </Dialog>
             )}
           </div>
+          <Dialog open={isEvaluationSucessDialogOpen}>
+            <DialogContent className="w-[55%] max-w-[30rem]">
+              <DialogHeader>
+                <CheckIcon
+                  size="5rem"
+                  className="mx-auto mb-2 rounded-full bg-primary"
+                />
+                <DialogTitle>Avaliação efetuada!</DialogTitle>
+                <DialogDescription>
+                  Sua avaliação foi efetuada com sucesso
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="flex flex-row gap-3">
+                <DialogClose asChild>
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => {
+                      setIsEvaluationSucessDialogOpen(false)
+                      setIsSheetOpen(false)
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </SheetFooter>
       </SheetContent>
     </Sheet>
