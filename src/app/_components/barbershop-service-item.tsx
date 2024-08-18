@@ -215,7 +215,7 @@ const BarberShopServiceItem = ({
                   </div>
 
                   {selectedDay && (
-                    <div className="flex gap-3 overflow-x-auto border-b border-solid px-5 [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-3 overflow-x-auto border-b border-solid p-2 px-5 [&::-webkit-scrollbar]:hidden">
                       {timeList.length > 0 ? (
                         timeList?.map((time) => (
                           <Button
