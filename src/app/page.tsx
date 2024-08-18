@@ -105,25 +105,31 @@ export default async function Home() {
         </div>
 
         {/* AGENDAMENTO */}
-        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
-          Agendamentos
-        </h2>
+        {!!boookings.length && (
+          <>
+            <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+              Agendamentos
+            </h2>
 
-        <Carousel className="mx-12 max-w-full">
-          <CarouselContent>
-            {boookings.map((booking) => (
-              <CarouselItem
-                key={booking.id}
-                className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-              >
-                <BookingItem booking={JSON.parse(JSON.stringify(booking))} />
-                {/* <div>aaa</div> */}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+            <Carousel className="mx-12 max-w-full">
+              <CarouselContent>
+                {boookings.map((booking) => (
+                  <CarouselItem
+                    key={booking.id}
+                    className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                  >
+                    <BookingItem
+                      booking={JSON.parse(JSON.stringify(booking))}
+                    />
+                    {/* <div>aaa</div> */}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </>
+        )}
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
