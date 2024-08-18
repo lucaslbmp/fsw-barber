@@ -175,7 +175,7 @@ const BarberShopServiceItem = ({
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="grow basis-0 space-y-2">
             <h3 className="font-semibold">{service.name}</h3>
             <p className="text-xs">{service.description}</p>
             {/* PREÇO E BOTAO */}
