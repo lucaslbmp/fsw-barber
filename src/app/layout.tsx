@@ -4,6 +4,8 @@ import "./globals.css"
 import { Toaster } from "sonner"
 import Footer from "./_components/footer"
 import AuthProvider from "./_providers/auth"
+import { Suspense } from "react"
+import LoadingPage from "./_components/loading-page"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,13 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <AuthProvider>
-          <div className="flex h-full flex-col">
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
-        </AuthProvider>
-        <Toaster />
+        <Suspense fallback={<LoadingPage />}>
+          <AuthProvider>
+            <div className="flex h-full flex-col">
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
+          </AuthProvider>
+          <Toaster />
+        </Suspense>
       </body>
     </html>
   )
