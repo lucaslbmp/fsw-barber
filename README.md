@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 **Home page** \
 ![home-page](https://github.com/user-attachments/assets/368429b3-97a9-438e-a76e-945fc13a9b9e) 
 
-**Navigation sheet:** allows login-in/out and navigating through the barbershops registred. \
+**Navigation sheet:** allows logging in/out and navigating through the barbershops registred. \
 ![navbar](https://github.com/user-attachments/assets/6abfa5d9-ce44-41ee-b1a2-45f430356515) 
 
 **Bookings page:** shows the user's bookings \
